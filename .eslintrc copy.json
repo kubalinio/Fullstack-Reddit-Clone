@@ -1,0 +1,51 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "next/core-web-vitals",
+    "plugin:security/recommended",
+    "plugin:import/recommended",
+    "plugin:jsx-a11y/recommended",
+    "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
+    "plugin:react-hooks/recommended",
+    "prettier"
+  ],
+  "plugins": [
+    "simple-import-sort",
+    "import",
+    "jsx-a11y",
+    "react",
+    "react-hooks",
+    "testing-library",
+    "jest-dom",
+    "jest",
+    "security"
+  ],
+  "rules": {
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error"
+  },
+  "overrides": [
+    {
+      // enable eslint-plugin-testing-library rules or preset only for matching files!
+      "files": ["**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[jt]s?(x)"],
+      "extends": ["plugin:jest/recommended", "plugin:jest-dom/recommended", "plugin:testing-library/react"]
+    },
+    {
+      "files": ["**/*.ts?(x)"],
+      "parser": "@typescript-eslint/parser",
+      "extends": ["plugin:@typescript-eslint/recommended", "plugin:import/typescript"]
+    }
+  ],
+  "settings": {
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
+    },
+    "import/resolver": {
+      "typescript": {}
+    },
+    "react": {
+      "version": "detect"
+    }
+  }
+}
