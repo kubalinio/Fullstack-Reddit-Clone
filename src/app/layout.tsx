@@ -2,6 +2,7 @@ import '@/styles/globals.css'
 import { Open_Sans } from 'next/font/google'
 import { cn } from '@/lib/utils'
 import { Navbar } from '@/components/Navbar'
+import { Toaster } from '@/components/ui/Toaster'
 
 export const metadata = {
   title: 'Needit',
@@ -17,6 +18,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Navbar />
 
         <div className="container mx-auto h-full max-w-7xl pt-12">{children}</div>
+
+        <Toaster />
       </body>
     </html>
   )
