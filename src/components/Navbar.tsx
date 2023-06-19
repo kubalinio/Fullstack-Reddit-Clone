@@ -1,8 +1,8 @@
 import Link from 'next/link'
-import React from 'react'
 import { Icons } from './Icons'
 import { buttonVariants } from './ui/Button'
 import { getAuthSession } from '@/lib/auth'
+import { UserAccountNav } from './user/UserAccountNav'
 
 export const Navbar = async () => {
   const session = await getAuthSession()
@@ -17,7 +17,7 @@ export const Navbar = async () => {
 
         {/* Search Bar */}
         {session ? (
-          <p>youre logged in</p>
+          <UserAccountNav user={session.user} />
         ) : (
           <Link href={'/sign-in'} className={buttonVariants()}>
             Sign In
