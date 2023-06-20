@@ -3,6 +3,8 @@ import { db } from '@/lib/db'
 import { format } from 'date-fns'
 import { notFound } from 'next/navigation'
 import { SubscribeLeaveToggle } from '@/components/SubscribeLeaveToggle'
+import Link from 'next/link'
+import { buttonVariants } from '@/components/ui/Button'
 
 export default async function Layout({
   children,
@@ -91,6 +93,16 @@ export default async function Layout({
                   subredditName={subreddit.name}
                 />
               ) : null}
+
+              <Link
+                href={`r/${slug}/submit`}
+                className={buttonVariants({
+                  variant: 'outline',
+                  className: 'mb-6 w-full',
+                })}
+              >
+                Create Post
+              </Link>
             </dl>
           </div>
         </div>
