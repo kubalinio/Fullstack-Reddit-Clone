@@ -15,7 +15,7 @@ export const SignIn = () => {
         <UserAuthForm />
 
         <p className="px-8 text-center text-sm text-zinc-700">
-          New to NeedIt?{' '}
+          New to Needdit?{' '}
           <Link href={'/sign-up'} className="text-sm underline underline-offset-4 hover:text-zinc-800">
             Sign Up
           </Link>

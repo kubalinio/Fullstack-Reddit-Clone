@@ -15,7 +15,7 @@ export const SignUp = () => {
         <UserAuthForm />
 
         <p className="px-8 text-center text-sm text-zinc-700">
-          Already a NeedIt Account?{' '}
+          Already a Needdit Account?{' '}
           <Link href={'/sign-in'} className="text-sm underline underline-offset-4 hover:text-zinc-800">
             Sign In
           </Link>
