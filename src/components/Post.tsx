@@ -24,7 +24,6 @@ export const Post: FC<PostProps> = ({ subredditName, post, commentAmt, votesAmt,
   return (
     <div className="rounded-md bg-white shadow">
       <div className="flex justify-between px-6 py-4">
-        {/* @TODO: PostVotes */}
         <PostVoteClient initialVotesAmt={votesAmt} postId={post.id} initialVote={currentVote?.type} />
 
         <div className="w-0 flex-1">

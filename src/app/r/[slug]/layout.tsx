@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation'
 import { SubscribeLeaveToggle } from '@/components/SubscribeLeaveToggle'
 import Link from 'next/link'
 import { buttonVariants } from '@/components/ui/Button'
+import ToFeedButton from '@/components/ToFeedBtn'
 
 export default async function Layout({
   children,
@@ -55,7 +56,7 @@ export default async function Layout({
   return (
     <div className="mx-auto max-w-7xl pt-12 sm:container">
       <div>
-        {/* TODO: Button to take us back */}
+        <ToFeedButton />
 
         <div className="grid grid-cols-1 gap-y-4 py-6 md:grid-cols-3 md:gap-x-4">
           <div className="col-span-2 flex flex-col space-y-6">{children}</div>
