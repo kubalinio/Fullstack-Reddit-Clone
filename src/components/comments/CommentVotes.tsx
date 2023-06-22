@@ -1,41 +1,36 @@
 'use client'
 import { useCustomToast } from '@/hooks/use-custom-toast'
-import { PostVoteRequest } from '@/lib/validators/vote'
+import { CommentVoteRequest } from '@/lib/validators/vote'
 import { usePrevious } from '@mantine/hooks'
-import { VoteType } from '@prisma/client'
+import { CommentVote, VoteType } from '@prisma/client'
 import { useMutation } from '@tanstack/react-query'
 import axios, { AxiosError } from 'axios'
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import { Button } from '../ui/Button'
 import { ArrowBigDown, ArrowBigUp } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { toast } from '@/hooks/use-toast'
 
-interface PostVoteClientProps {
-  postId: string
+interface CommentVotesProps {
+  commentId: string
   initialVotesAmt: number
-  initialVote?: VoteType | null
+  initialVote?: Pick<CommentVote, 'type'>
 }
 
-export const PostVoteClient: FC<PostVoteClientProps> = ({ postId, initialVotesAmt, initialVote }) => {
+export const CommentVotes: FC<CommentVotesProps> = ({ commentId, initialVotesAmt, initialVote }) => {
   const { loginToast } = useCustomToast()
   const [votesAmt, setVotesAmt] = useState<number>(initialVotesAmt)
   const [currentVote, setCurrentVote] = useState(initialVote)
   const prevVote = usePrevious(currentVote)
 
-  // @WhatDo sync with server
-  useEffect(() => {
-    setCurrentVote(initialVote)
-  }, [initialVote])
-
   const { mutate: vote } = useMutation({
     mutationFn: async (type: VoteType) => {
-      const payload: PostVoteRequest = {
+      const payload: CommentVoteRequest = {
         voteType: type,
-        postId: postId,
+        commentId,
       }
 
-      await axios.patch('/api/subreddit/post/vote', payload)
+      await axios.patch('/api/subreddit/comment/vote', payload)
     },
     onError: (err, voteType) => {
       if (voteType === 'UP') setVotesAmt((prev) => prev - 1)
@@ -56,13 +51,13 @@ export const PostVoteClient: FC<PostVoteClientProps> = ({ postId, initialVotesAm
         variant: 'destructive',
       })
     },
-    onMutate: (type: VoteType) => {
-      if (currentVote === type) {
+    onMutate: (type) => {
+      if (currentVote?.type === type) {
         setCurrentVote(undefined)
         if (type === 'UP') setVotesAmt((prev) => prev - 1)
         else if (type === 'DOWN') setVotesAmt((prev) => prev + 1)
       } else {
-        setCurrentVote(type)
+        setCurrentVote({ type })
         if (type === 'UP') setVotesAmt((prev) => prev + (currentVote ? 2 : 1))
         else if (type === 'DOWN') setVotesAmt((prev) => prev - (currentVote ? 2 : 1))
       }
@@ -70,12 +65,20 @@ export const PostVoteClient: FC<PostVoteClientProps> = ({ postId, initialVotesAm
   })
 
   return (
-    <div className="flex gap-4 pb-4 pr-6 sm:w-20 sm:flex-col sm:gap-0 sm:pb-0">
+    <div className="flex gap-1">
       {/* upvote */}
-      <Button onClick={() => vote('UP')} size={'sm'} variant={'ghost'} aria-label="upvote">
+      <Button
+        onClick={() => vote('UP')}
+        size={'sm'}
+        variant={'ghost'}
+        aria-label="upvote"
+        className={cn({
+          'text-emerald-500': currentVote?.type === 'DOWN',
+        })}
+      >
         <ArrowBigUp
           className={cn('h-5 w-5 text-zinc-700', {
-            'fill-emerald-500 text-emerald-500': currentVote === 'UP',
+            'fill-emerald-500 text-emerald-500': currentVote?.type === 'UP',
           })}
         />
       </Button>
@@ -88,12 +91,12 @@ export const PostVoteClient: FC<PostVoteClientProps> = ({ postId, initialVotesAm
         variant={'ghost'}
         aria-label="downvote"
         className={cn({
-          'text-emerald-500': currentVote === 'DOWN',
+          'text-emerald-500': currentVote?.type === 'DOWN',
         })}
       >
         <ArrowBigDown
           className={cn('h-5 w-5 text-zinc-700', {
-            'fill-emerald-500 text-emerald-500': currentVote === 'DOWN',
+            'fill-emerald-500 text-emerald-500': currentVote?.type === 'DOWN',
           })}
         />
       </Button>

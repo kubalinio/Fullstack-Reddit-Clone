@@ -37,21 +37,26 @@ export const CommentsSection = async ({ postId }: CommentsSectionProps) => {
         {comments
           .filter((comment) => !comment.replyToId)
           .map((topLevelComment) => {
-            // eslint-disable-next-line no-unused-vars
             const topLevelCommentVotesAmt = topLevelComment.votes.reduce((acc, vote) => {
               if (vote.type === 'UP') return acc + 1
               if (vote.type === 'DOWN') return acc - 1
               return acc
             }, 0)
 
-            // eslint-disable-next-line no-unused-vars
             const topLevelCommentVote = topLevelComment.votes.find((vote) => vote.userId === session?.user.id)
 
             return (
               <div key={topLevelComment.id} className="flex flex-col">
                 <div className="mb-2">
-                  <PostComment comment={topLevelComment} />
+                  <PostComment
+                    comment={topLevelComment}
+                    postId={postId}
+                    votesAmt={topLevelCommentVotesAmt}
+                    currentVote={topLevelCommentVote}
+                  />
                 </div>
+
+                {/* render replie */}
               </div>
             )
           })}
