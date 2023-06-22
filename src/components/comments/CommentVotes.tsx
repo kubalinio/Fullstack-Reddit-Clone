@@ -30,7 +30,7 @@ export const CommentVotes: FC<CommentVotesProps> = ({ commentId, initialVotesAmt
         commentId,
       }
 
-      await axios.patch('/api/subreddit/comment/vote', payload)
+      await axios.patch('/api/subreddit/post/comment/vote', payload)
     },
     onError: (err, voteType) => {
       if (voteType === 'UP') setVotesAmt((prev) => prev - 1)
