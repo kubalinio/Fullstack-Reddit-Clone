@@ -1,3 +1,4 @@
+'use client'
 import { useCustomToast } from '@/hooks/use-custom-toast'
 import { PostVoteRequest } from '@/lib/validators/vote'
 import { usePrevious } from '@mantine/hooks'
