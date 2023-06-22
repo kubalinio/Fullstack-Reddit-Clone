@@ -18,8 +18,8 @@ export const UserAvatar: FC<UserAvatarProps> = ({ user, ...props }) => {
         </div>
       ) : (
         <AvatarFallback>
-          <span>{user?.name}</span>
-          <Icons.user />
+          <span className="sr-only">{user?.name}</span>
+          <Icons.user className="h-4 w-4" />
         </AvatarFallback>
       )}
     </Avatar>
