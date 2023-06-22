@@ -22,7 +22,7 @@ export async function POST(req: Request) {
       },
     })
 
-    if (subscriptionExists) {
+    if (!subscriptionExists) {
       return new Response('Subscribe to post.', {
         status: 400,
       })

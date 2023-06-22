@@ -27,6 +27,10 @@ export default async function DetailPage({ params }: PageProps) {
           comments: true,
           subreddit: true,
         },
+        orderBy: {
+          content: 'desc',
+        },
+
         take: INFINITE_SCROLLING_PAGINATION_RESULTS,
       },
     },

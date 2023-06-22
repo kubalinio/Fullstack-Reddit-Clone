@@ -1,6 +1,6 @@
 'use client'
 
-import { FC, useRef } from 'react'
+import { FC, useEffect, useRef } from 'react'
 import { ExtendedPost } from '@/types/db'
 import { useIntersection } from '@mantine/hooks'
 import { useInfiniteQuery } from '@tanstack/react-query'
@@ -41,6 +41,13 @@ export const PostFeed: FC<PostFeedProps> = ({ initialPosts, subredditName }) => 
     }
   )
 
+  // @WhatDo Fetching incremental posts
+  useEffect(() => {
+    if (entry?.isIntersecting) {
+      fetchNextPage()
+    }
+  }, [entry, fetchNextPage])
+
   const posts = data?.pages.flatMap((page) => page) ?? initialPosts
 
   return (
@@ -49,6 +56,7 @@ export const PostFeed: FC<PostFeedProps> = ({ initialPosts, subredditName }) => 
         const votesAmt = post.votes.reduce((acc, vote) => {
           if (vote.type === 'UP') return acc + 1
           if (vote.type === 'DOWN') return acc - 1
+
           return acc
         }, 0)
 
