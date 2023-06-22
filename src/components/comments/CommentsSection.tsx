@@ -1,5 +1,6 @@
 import { getAuthSession } from '@/lib/auth'
 import { db } from '@/lib/db'
+import { PostComment } from './PostComment'
 
 interface CommentsSectionProps {
   postId: string
@@ -47,7 +48,9 @@ export const CommentsSection = async ({ postId }: CommentsSectionProps) => {
 
             return (
               <div key={topLevelComment.id} className="flex flex-col">
-                <div className="mb-2"></div>
+                <div className="mb-2">
+                  <PostComment comment={topLevelComment} />
+                </div>
               </div>
             )
           })}
