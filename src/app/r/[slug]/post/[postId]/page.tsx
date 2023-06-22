@@ -1,4 +1,5 @@
 import { EditorOutput } from '@/components/EditorOutput'
+import { CommentsSection } from '@/components/comments/CommentsSection'
 import { PostVoteServer } from '@/components/post-vote/PostVoteServer'
 import { buttonVariants } from '@/components/ui/Button'
 import { db } from '@/lib/db'
@@ -71,6 +72,11 @@ export default async function DetailPostPage({ params }: PageProps) {
           <h1 className="py-2 text-xl font-semibold leading-6 text-gray-900">{post?.title ?? cachedPost.title}</h1>
 
           <EditorOutput content={post?.content ?? cachedPost.content} />
+
+          <Suspense fallback={<Loader2 className="h-5 w-5 animate-spin text-zinc-500" />}>
+            {/* @ts-expect-error server component */}
+            <CommentsSection postId={post?.id ?? cachedPost.id} />
+          </Suspense>
         </div>
       </div>
     </div>
